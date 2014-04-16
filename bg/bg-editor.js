@@ -40,7 +40,8 @@ var Editor = function () {
 };
 
 /* Control bg-player instance and invoke its pause function, which returns the index
- * within the ticks array of where pause is occurring. */
+ * within the ticks array of where pause is occurring.
+ */
 Editor.prototype.pausePlayback = function () {
   console.log('BgEditor: pausePlayback', this.status);
   if (this.status === 'playing') {
@@ -49,6 +50,8 @@ Editor.prototype.pausePlayback = function () {
   }
 };
 
+/* Control bg-player to replay entire recording.
+ */
 Editor.prototype.replay = function(){
   console.log('BgEditor: Replay with status', this.status);
   if (this.status === 'ready'){
@@ -74,11 +77,9 @@ Editor.prototype.addAnnotations = function () {
   console.log('BgEditor: Adding annotations, editor status is', this.status);
   if (this.status === 'paused'){
     var message = window.prompt('Please enter the annotation you\'d like to add.');
-
     if (message && message.length !== 0) {
       this.currentKlickObject.ticks[this.currentIndex].annotation = message;
     }
-
     console.log('BgEditor: Resuming playback..');
     this.resumePlayback();
   }
@@ -116,7 +117,7 @@ Editor.prototype.getStatus = function(){
 /* ------------------------------------------------------------------------------------*/
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  // Listening on bgPlayer's pausePlay function
+  // Listening to bgPlayer's pausePlay function
   if (request.action === 'pauseIndex') {
     window.editor.currentIndex = request.index;
     console.log("About to enter addAnnotation");
