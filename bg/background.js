@@ -1,12 +1,8 @@
 /* ------------------------------------------------------------------------------------*/
 /* BACKGROUND
-/* - Runs perpetually in the background, is at the same level as popups and has full
-/* access to Chrome extension classes
-/* - No direct access to browser DOM
-/* - Communicates with content scripts using events (ie. messages and listeners)
-/* - Communicates with popups through direct function calls
-/* - Communicates with server by sending current Klick object
+/* Overall controller between BgEditor, BgPlayer and BgRecorder
 /* ------------------------------------------------------------------------------------*/
+
 console.log('Background initiated...');
 
 /* ------------------------------------------------------------------------------------*/
@@ -18,6 +14,10 @@ window.Klickr = Klickr;
 
 Klickr.hostname = 'klickr.io';
 Klickr.server = 'http://www.klickr.io';
+
+  //stephan start
+  window.latestLinks = [];
+  //stehan send
 
 /* ------------------------------------------------------------------------------------*/
 /* RECORDER
@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     window.rec.send();
     window.rec = undefined;
     bgPlayer.klickQueue = [];
-    sendResponse({response: "Background: Processed save message"});
+    sendResponse({response: 'Background: Processed save message'});
   }
 
   // If DOM is ready and window.recorderStatus = 'recording', then send message to message.js

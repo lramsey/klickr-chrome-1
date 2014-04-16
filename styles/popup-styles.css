@@ -66,3 +66,18 @@ a:focus {
   background-color: #F0F1F0;
   border-radius: 8px;
 }
+
+/* Stephan start*/
+.linkList {
+  list-style-type:circle;
+  list-style-position:inside;
+  padding-bottom: 5px;
+}
+
+.links {
+  list-style-type:circle;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom:  2px;
+}
+/* Stephan end*/

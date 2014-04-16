@@ -1,6 +1,7 @@
 angular.module('KlickrChromeApp', [])
 
   .controller('PopupCtrl', function ($scope, $interval) {
+
     var bg = chrome.extension.getBackgroundPage();
 
     /* Status update loop */
@@ -13,6 +14,7 @@ angular.module('KlickrChromeApp', [])
     $scope.refreshStatus();
     $interval(function() {
       $scope.refreshStatus();
+      $scope.Links = bg.latestLinks;
     }, 500);
 
     $scope.showMessage = false;
@@ -110,6 +112,11 @@ angular.module('KlickrChromeApp', [])
       bg.delete();
       window.close();
     };
+
+    $scope.showRecentLinks = function(){
+      return $scope.Links.length>0;
+    };
+
 
     // chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     //   if (request.action === 'sendPauseMessage') {
