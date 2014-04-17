@@ -65,6 +65,7 @@ BgPlayer.prototype.setStatus = function(status){
  * @callback: calls callback when completed
  */
 BgPlayer.prototype.getTabById = function(tabId, callback){
+  console.log('before query: ', tabId);
   chrome.tabs.query({}, function(tabs){
 
     console.log('tabID: ',tabId);
