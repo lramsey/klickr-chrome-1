@@ -66,9 +66,11 @@ BgPlayer.prototype.setStatus = function(status){
  */
 BgPlayer.prototype.getTabById = function(tabId, callback){
   chrome.tabs.query({}, function(tabs){
-    console.log(tabs);
+
+    console.log('tabID: ',tabId);
     for (var i = 0; i < tabs.length; i++){
       if (tabs[i].id === tabId) {
+        console.log('matched tab: ', tabs[i].id);
         callback(tabs[i]);
         return;
       }
@@ -84,7 +86,9 @@ BgPlayer.prototype.getTabById = function(tabId, callback){
 BgPlayer.prototype.redirect = function(nextUrl, callback){
   callback = callback || function(){};
   this.getTabById(this.tabId, function(tab){
-    if (tab === null) throw new Error('Tab not found');
+    if (tab === null){
+      throw new Error('Tab not found');
+    }
     chrome.tabs.update(tab.id, {url: nextUrl}, callback);
   });
 };
@@ -180,10 +184,14 @@ BgPlayer.prototype.getRawKlickIndex = function(queueIndex, playerIndex){
 /* Watches tab and plays next subklick when player ready */
 BgPlayer.prototype.playWhenPlayerReady = function(){
   var that = this;
+  var id = this.tabId;
+  console.log("tab id passed in to getTabById: ",id);
   chrome.tabs.onUpdated.addListener(function nextSubKlickListener(){
     // after redirect, find tab by ID
     that.getTabById(that.tabId, function(tab){
-      if (tab === null) throw new Error('BgPlayer: Tab does not exist');
+      if (tab === null){
+        throw new Error('BgPlayer: Tab does not exist');
+      }
       if (tab.status === 'complete'){
         that.playStagedKlick();
         chrome.tabs.onUpdated.removeListener(nextSubKlickListener);
@@ -211,9 +219,11 @@ BgPlayer.prototype.playStagedKlick = function(){
 BgPlayer.prototype.nextSubKlick = function(){
   var that = this;
   that.klickQueueIndex++;
+  console.log('nextSubKlick id: ', this.tabId);
   if (that.klickQueueIndex < that.klickQueue.length){
     that.stagedKlick = that.klickQueue[that.klickQueueIndex];
     that.redirect(that.stagedKlick.ticks[0].url, function(){
+      console.log('redirect id: ', that.tabId);
       that.playWhenPlayerReady();
     });
   } else {
