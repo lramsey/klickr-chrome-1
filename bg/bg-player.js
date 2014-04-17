@@ -204,13 +204,13 @@ BgPlayer.prototype.playWhenPlayerReady = function(){
 /* Tell player to play klick */
 BgPlayer.prototype.playStagedKlick = function(){
   var that = this;
-  chrome.tabs.sendMessage(this.tabId, {action:'play', klick: this.stagedKlick}, function(res){
+  chrome.tabs.sendMessage(that.tabId, {action:'play', klick: that.stagedKlick}, function(res){
     if (res === undefined || res.response === undefined) {
       // if no response, try again
       that.playStagedKlick();
       return;
     }
-    this.stagedKlick = undefined;
+    that.stagedKlick = undefined;
   });
 };
 
