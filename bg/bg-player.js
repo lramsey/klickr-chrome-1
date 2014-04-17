@@ -65,13 +65,10 @@ BgPlayer.prototype.setStatus = function(status){
  * @callback: calls callback when completed
  */
 BgPlayer.prototype.getTabById = function(tabId, callback){
-  console.log('before query: ', tabId);
   chrome.tabs.query({}, function(tabs){
 
-    console.log('tabID: ',tabId);
     for (var i = 0; i < tabs.length; i++){
       if (tabs[i].id === tabId) {
-        console.log('matched tab: ', tabs[i].id);
         callback(tabs[i]);
         return;
       }
@@ -86,6 +83,7 @@ BgPlayer.prototype.getTabById = function(tabId, callback){
  */
 BgPlayer.prototype.redirect = function(nextUrl, callback){
   callback = callback || function(){};
+  var that = this;
   this.getTabById(this.tabId, function(tab){
     if (tab === null){
       throw new Error('Tab not found');
@@ -183,17 +181,20 @@ BgPlayer.prototype.getRawKlickIndex = function(queueIndex, playerIndex){
 
 
 /* Watches tab and plays next subklick when player ready */
+// added waiting variable to prevent bug where, on redirect, multiple klickFinished messages 
+// were called  out of placecausing the app to break.
 BgPlayer.prototype.playWhenPlayerReady = function(){
   var that = this;
+  that.waiting = true;
   var id = this.tabId;
-  console.log("tab id passed in to getTabById: ",id);
   chrome.tabs.onUpdated.addListener(function nextSubKlickListener(){
     // after redirect, find tab by ID
     that.getTabById(that.tabId, function(tab){
       if (tab === null){
         throw new Error('BgPlayer: Tab does not exist');
       }
-      if (tab.status === 'complete'){
+      if (tab.status === 'complete' && that.waiting){
+        that.waiting = false;
         that.playStagedKlick();
         chrome.tabs.onUpdated.removeListener(nextSubKlickListener);
       }
@@ -220,11 +221,9 @@ BgPlayer.prototype.playStagedKlick = function(){
 BgPlayer.prototype.nextSubKlick = function(){
   var that = this;
   that.klickQueueIndex++;
-  console.log('nextSubKlick id: ', this.tabId);
   if (that.klickQueueIndex < that.klickQueue.length){
     that.stagedKlick = that.klickQueue[that.klickQueueIndex];
     that.redirect(that.stagedKlick.ticks[0].url, function(){
-      console.log('redirect id: ', that.tabId);
       that.playWhenPlayerReady();
     });
   } else {

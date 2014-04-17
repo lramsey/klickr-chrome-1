@@ -8,12 +8,13 @@ var Player = function(){
   this.pause = false;
   this.window = $(window);
   this.body = $('body');
+  this.playing = false;
   var that = this;
 
   // Listens to messages from background
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(request.action);
-    if (request.action === 'play'){
+    if (request.action === 'play' && !this.playing){
       that.newPlayController(request.klick);
       console.log('Playing Klick');
       sendResponse({response: 'Player: Playing Klick...'});
@@ -124,6 +125,7 @@ window.Player = Player;
   // this function is very similar to Recorder.sendToBackground.  sends the nextKlick message to background, passing data over as the klick.
   Player.prototype.endPlay = function(){
     console.log('Player: Sending to background');
+    this.playing = false;
     chrome.runtime.sendMessage({action : "klickFinished"});
     $('.mouse').detach();
   };
@@ -184,6 +186,7 @@ window.Player = Player;
 /* ------------------------------------------------------------------------------------*/
 
   Player.prototype.newPlayController = function(klick){
+    this.playing = true;
     this.formatKlick(klick);
     this.playRecording(klick.ticks, 0);
   };
