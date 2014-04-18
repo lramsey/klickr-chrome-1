@@ -8,6 +8,7 @@ angular.module('KlickrChromeApp', [])
     $scope.refreshStatus = function(){
       $scope.recorderStatus = Klickr.recorderStatus;
       $scope.editorStatus = Klickr.editor === undefined ? 'inactive' : Klickr.editor.getStatus();
+      $scope.playerStatus = Klickr.bgPlayer.getStatus();
     };
 
     $scope.refreshStatus();
@@ -29,12 +30,16 @@ angular.module('KlickrChromeApp', [])
       return $scope.recorderStatus === 'ready' && Klickr.bgPlayer.getStatus() !== 'playing';
     };
 
-    $scope.canStop = function(){
+    $scope.canStopRecord = function(){
       return $scope.recorderStatus === 'recording';
     };
 
     $scope.canPlay = function(){
       return Klickr.bgPlayer.getStatus() === 'ready';
+    };
+
+    $scope.canStopPlay = function(){
+      return Klickr.bgPlayer.getStatus() === 'playing' && !Klickr.editor;
     };
 
     $scope.showSaver = function(){
@@ -52,6 +57,11 @@ angular.module('KlickrChromeApp', [])
       $scope.recorderStatus = 'processing';
       Klickr.bgRecorder.stopRecording();
       $scope.isPaused = true;
+    };
+
+    $scope.endPlay = function(){
+      window.close();
+      Klickr.bgPlayer.end();
     };
 
     $scope.playRecording = function(){

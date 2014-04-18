@@ -45,6 +45,10 @@ BgPlayer.prototype.pause = function(){
   helpers.activeTabSendMessage({action: 'pause'});
 };
 
+BgPlayer.prototype.end = function(){
+  helpers.activeTabSendMessage({action: 'end'});
+};
+
 // Retrieve current bgPlayer status
 BgPlayer.prototype.getStatus = function(){
   return this.status;
@@ -278,6 +282,11 @@ BgPlayer.prototype.addPlayerListeners = function(){
     else if (request.action === 'klickPaused') {
       var rawKlickIndex = that.getRawKlickIndex(that.klickQueueIndex, request.index);
       chrome.runtime.sendMessage({action:'pauseIndex', rawIndex: rawKlickIndex, resumeIndex: request.index});
+    }
+
+    else if (request.action === 'klickEnded'){
+      that.klickQueueIndex = that.klickQueue.length-1;
+      that.nextSubKlick();
     }
   });
 };
