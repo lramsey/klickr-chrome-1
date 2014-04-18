@@ -5,6 +5,10 @@
   "description": "Klickr",
   "version": "1.0.0",
 
+  "icons": { "16": "img/klickr-16.png",
+             "48": "img/klickr-48.png",
+            "128": "img/klickr-128.png" },
+
   "browser_action": {
     "default_icon": "img/icon.png",
     "default_popup": "popups/popup.html"
@@ -26,11 +30,11 @@
     "scripts": [
       "bower_components/jquery/dist/jquery.js",
       "bower_components/lodash/dist/lodash.js",
+      "bg/background.js",
       "bg/helpers.js",
       "bg/bg-recorder.js",
       "bg/bg-player.js",
-      "bg/bg-editor.js",
-      "bg/background.js"
+      "bg/bg-editor.js"
     ]
   },
 
@@ -44,4 +48,4 @@
   "web_accessible_resources": [
     "img/klickr-pointer.png"
   ]
-} 
+}

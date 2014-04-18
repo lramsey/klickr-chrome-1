@@ -43,7 +43,8 @@ Recorder.prototype.addListeners = function(){
       target.tagName = event.target.tagName;
       target.index = getIndexOf(target.tagName, event.target);
 
-      self.log(event.type, event.pageX, event.pageY, event.clientX, event.clientY, event.timeStamp, target, undefined, event.altKey, event.ctrlKey, event.metaKey, event.shiftKey, document.URL);
+      self.log(event.type, event.pageX, event.pageY, event.clientX, event.clientY, event.timeStamp,
+        target, undefined, event.altKey, event.ctrlKey, event.metaKey, event.shiftKey, document.URL);
     }
   });
 
@@ -54,7 +55,8 @@ Recorder.prototype.addListeners = function(){
       target.index = getIndexOf(target.tagName, event.target);
 
       var charCode = event.which || event.keyCode;
-      self.log(event.type, event.pageX, event.pageY, event.clientX, event.clientY, event.timeStamp, target, charCode, event.altKey, event.ctrlKey, event.metaKey, event.shiftKey);
+      self.log(event.type, event.pageX, event.pageY, event.clientX, event.clientY, event.timeStamp,
+        target, charCode, event.altKey, event.ctrlKey, event.metaKey, event.shiftKey);
     }
   });
 };
@@ -64,7 +66,6 @@ Recorder.prototype.initEventHandlers = function() {
   var self = this;
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    // console.log('Recorder: Message received:', request);
     if (request.action === 'startRecording'){
       sendResponse({response: 'Recorder: Started'});
       self.start();
@@ -90,7 +91,8 @@ Recorder.prototype.mouseMove = function(event) {
 };
 
 /* Logs to output */
-Recorder.prototype.log = function(action, pageX, pageY, clientX, clientY, timestamp, target, charCode, altKey, ctrlKey, metaKey, shiftKey, url){
+Recorder.prototype.log = function(action, pageX, pageY, clientX, clientY, timestamp,
+                         target, charCode, altKey, ctrlKey, metaKey, shiftKey, url){
   if ( this.mousePos ) {
     action = action || 'move';
     pageX = pageX || this.mousePos.pageX;
@@ -117,7 +119,6 @@ Recorder.prototype.log = function(action, pageX, pageY, clientX, clientY, timest
       url: url
     };
 
-    console.log('Send', tick);
     chrome.runtime.sendMessage({action: 'appendTick', tick: tick});
   }
 };
