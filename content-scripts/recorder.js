@@ -66,7 +66,6 @@ Recorder.prototype.initEventHandlers = function() {
   var self = this;
 
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    // console.log('Recorder: Message received:', request);
     if (request.action === 'startRecording'){
       sendResponse({response: 'Recorder: Started'});
       self.start();
@@ -120,7 +119,6 @@ Recorder.prototype.log = function(action, pageX, pageY, clientX, clientY, timest
       url: url
     };
 
-    console.log('Send', tick);
     chrome.runtime.sendMessage({action: 'appendTick', tick: tick});
   }
 };

@@ -23,7 +23,6 @@ var Player = function(){
       console.log('paused');
     },
     resume : function (request, sender, sendResponse){
-      console.log('Player: Resume', request.index, request.klick);
       that.resumePlayController(request.klick, request.index);
       console.log('Resuming Klick Play');
       sendResponse({response: "Player: Resuming Klick Play"});
@@ -75,7 +74,6 @@ Player.prototype.setMoveIntervals = function(movement){
       movement[i].t = movement[i].timestamp - movement[i-1].timestamp;
     }
   }
-  console.log('Player: Setting move intervals..');
 };
 
 //changes the iso date object in timestamp to an integer of the Date.now() format
@@ -127,7 +125,6 @@ Player.prototype.pausePlay = function(index){
 //places the mouse in the dom and gives the mouse's initial position and characteristics
 Player.prototype.placeMouse = function(movement){
   var cursor = chrome.extension.getURL("img/klickr-pointer.png");
-  console.log(cursor);
   this.body.append('<div class="mouse" style="position:absolute; background: url('+cursor+'); width: 40px;' +
            'z-index: 9999; height:40px; top: '+movement[0].pageY+'px; left:'+movement[0].pageX+'px;"></div>');
 };

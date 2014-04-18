@@ -43,7 +43,6 @@ var positionMessage = function (div, coords) {
 var displayMessage = function(div, duration){
   // add this Message object's $message property onto DOM
   $(document.body).append(div);
-  console.log('should have displayed', div.text(), 'duration', duration, 'top', div.css('top'), 'left', div.css('left'));
 
   // fade out message
   if (duration !== undefined){
