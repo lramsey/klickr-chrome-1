@@ -118,6 +118,7 @@ Player.prototype.endPlay = function(){
   console.log('Player: Sending to background');
   if(this.end){
     chrome.runtime.sendMessage({action: "klickEnded"});
+    this.end = false;
   }
   chrome.runtime.sendMessage({action : "klickFinished"});
   $('.mouse').detach();

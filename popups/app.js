@@ -39,7 +39,7 @@ angular.module('KlickrChromeApp', [])
     };
 
     $scope.canStopPlay = function(){
-      return Klickr.bgPlayer.getStatus() === 'playing' && !Klickr.editor;
+      return Klickr.bgPlayer.getStatus() === 'playing';
     };
 
     $scope.showSaver = function(){
