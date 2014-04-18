@@ -30,11 +30,11 @@
     "scripts": [
       "bower_components/jquery/dist/jquery.js",
       "bower_components/lodash/dist/lodash.js",
+      "bg/background.js",
       "bg/helpers.js",
       "bg/bg-recorder.js",
       "bg/bg-player.js",
-      "bg/bg-editor.js",
-      "bg/background.js"
+      "bg/bg-editor.js"
     ]
   },
 
