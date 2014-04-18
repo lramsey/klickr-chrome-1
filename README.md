@@ -131,8 +131,7 @@ The bg-player.js file represents our Background Player class. The primary purpos
 bg-player instance is to decide when to send movement data for a particular url down
 to the player instance, and how to handle transitions between different urls when playing 
 a multi-page recording.  The bg-player instance acts as a coordinator with the player 
-instance and has listeners set up to listen for messages from the player and the rest 
-of the background.
+instance and has listeners set up to listen for messages from the player.
 
 
 #### Bg-editor.js
