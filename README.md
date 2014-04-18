@@ -116,7 +116,7 @@ The popup.html file represents the primary front end interface for our end users
 based on the status of the different parts of our application.
 
 #### Background.js
-INSERT INFO FOR BACKGROUND.JS]
+The background.js file adds a Klickr class, and instances of this class represent the overall controller between instances of BgEditor, BgPlayer and BgRecorder.
 
 #### Bg-recorder.js
 The bg-recorder.js file represents our Background Recorder class. The primary purpose of a
