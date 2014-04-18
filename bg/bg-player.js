@@ -49,6 +49,10 @@ BgPlayer.prototype.end = function(){
   helpers.activeTabSendMessage({action: 'end'});
 };
 
+BgPlayer.prototype.skip = function(){
+  helpers.activeTabSendMessage({action: 'skip'});
+};
+
 // Retrieve current bgPlayer status
 BgPlayer.prototype.getStatus = function(){
   return this.status;

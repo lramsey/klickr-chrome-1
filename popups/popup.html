@@ -16,7 +16,8 @@
       <div class="header">
         <li ng-click="toHome()" class="home"></li>
         <li><a ng-click="playRecording()" ng-show="canPlay()" href="#"><i class="fa fa-play"></i></a></li>
-        <li><a ng-click="endPlay()" ng-show="canStopPlay()" type="button" class="btn btn-default"><i class="fa fa-stop"></i></a></li>
+        <li><a ng-click="endPlay()" ng-show="canStopPlay()" type="button"><i class="fa fa-stop"></i></a></li>
+        <li><a ng-click="skipPlay()" ng-show="canStopPlay()" type="button"><i class="fa fa-step-forward"></i></a></li>
         <li><a ng-click="startRecording()" ng-show="canRecord()" href="#"><i class="fa fa-circle"></i></a></li>
         <li><a ng-click="stopRecording()" ng-show="canStopRecord()" href="#"><i class="fa fa-stop"></i></a></li>
         <li>{{ recorderStatus }}</li>

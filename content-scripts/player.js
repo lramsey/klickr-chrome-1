@@ -8,6 +8,7 @@ var Player = function(){
   console.log('Initializing player...');
   this.pause = false;
   this.end = false;
+  this.skip = false;
   this.window = $(window);
   this.body = $('body');
   var that = this;
@@ -19,13 +20,17 @@ var Player = function(){
       console.log('Playing Klick');
       sendResponse({response: 'Player: Playing Klick...'});
     },
-    pause : function (request, sender, sendResponse){
-      that.pause = true;
-      console.log('paused');
-    },
     end : function(request, sender, sendResponse){
       that.end = true;
       console.log('end');
+    },
+    skip: function(request, sender, sendResponse){
+      that.skip = true;
+      console.log('skip');
+    },
+    pause : function (request, sender, sendResponse){
+      that.pause = true;
+      console.log('paused');
     },
     resume : function (request, sender, sendResponse){
       that.resumePlayController(request.klick, request.index);
@@ -96,7 +101,7 @@ Player.prototype.parseDate = function(movement){
 // chains mouse moves together. also adds the scrolling logic. the pageX and pageY values of the movement object at index are passed to move.
 // function operates recursively, waiting the duration of the prior move in a setTimeout before calling the next move.
 Player.prototype.playRecording = function(movement, index){
-  if ( index === movement.length || this.end ) {
+  if ( index === movement.length || this.end || this.skip) {
     this.endPlay();
   } else if (this.pause){
     this.pausePlay(index);

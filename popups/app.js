@@ -64,6 +64,11 @@ angular.module('KlickrChromeApp', [])
       Klickr.bgPlayer.end();
     };
 
+    $scope.skipPlay = function(){
+      window.close();
+      Klickr.bgPlayer.skip();
+    };
+
     $scope.playRecording = function(){
       window.close();
       Klickr.bgPlayer.play();
