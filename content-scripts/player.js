@@ -121,12 +121,14 @@ Player.prototype.playRecording = function(movement, index){
 // this function is very similar to Recorder.sendToBackground.  sends the nextKlick message to background, passing data over as the klick.
 Player.prototype.endPlay = function(){
   console.log('Player: Sending to background');
+  $('.mouse').detach();
   if(this.end){
     chrome.runtime.sendMessage({action: "klickEnded"});
     this.end = false;
+    return;
   }
+  this.skip = false;
   chrome.runtime.sendMessage({action : "klickFinished"});
-  $('.mouse').detach();
 };
 
 // function to pause playback
