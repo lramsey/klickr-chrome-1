@@ -7,6 +7,8 @@
 var Player = function(){
   console.log('Initializing player...');
   this.pause = false;
+  this.end = false;
+  this.skip = false;
   this.window = $(window);
   this.body = $('body');
   var that = this;
@@ -17,6 +19,14 @@ var Player = function(){
       that.newPlayController(request.klick);
       console.log('Playing Klick');
       sendResponse({response: 'Player: Playing Klick...'});
+    },
+    end : function(request, sender, sendResponse){
+      that.end = true;
+      console.log('end');
+    },
+    skip: function(request, sender, sendResponse){
+      that.skip = true;
+      console.log('skip');
     },
     pause : function (request, sender, sendResponse){
       that.pause = true;
@@ -91,7 +101,7 @@ Player.prototype.parseDate = function(movement){
 // chains mouse moves together. also adds the scrolling logic. the pageX and pageY values of the movement object at index are passed to move.
 // function operates recursively, waiting the duration of the prior move in a setTimeout before calling the next move.
 Player.prototype.playRecording = function(movement, index){
-  if ( index === movement.length ) {
+  if ( index === movement.length || this.end || this.skip) {
     this.endPlay();
   } else if (this.pause){
     this.pausePlay(index);
@@ -111,8 +121,14 @@ Player.prototype.playRecording = function(movement, index){
 // this function is very similar to Recorder.sendToBackground.  sends the nextKlick message to background, passing data over as the klick.
 Player.prototype.endPlay = function(){
   console.log('Player: Sending to background');
-  chrome.runtime.sendMessage({action : "klickFinished"});
   $('.mouse').detach();
+  if(this.end){
+    chrome.runtime.sendMessage({action: "klickEnded"});
+    this.end = false;
+    return;
+  }
+  this.skip = false;
+  chrome.runtime.sendMessage({action : "klickFinished"});
 };
 
 // function to pause playback

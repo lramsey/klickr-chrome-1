@@ -46,7 +46,6 @@ BgEditor.prototype.addEditorListeners = function(){
   });
 };
 
-// 
 BgEditor.prototype.playerDone = function(){
   if (this.status !== 'playing') {
     throw new Error('BgEditor: Expected playing status instead of ' + this.status + ' when player is done');
@@ -55,7 +54,6 @@ BgEditor.prototype.playerDone = function(){
   }
 };
 
-// 
 BgEditor.prototype.pauseIndex = function(request){
   window.Klickr.editor.currentIndex = request.rawIndex;
   window.Klickr.editor.resumeIndex = request.resumeIndex;
@@ -75,7 +73,8 @@ BgEditor.prototype.pausePlayback = function () {
   }
 };
 
-// begins replay after replay button click
+/* Begins replay after replay button click
+ */
 BgEditor.prototype.replay = function(){
   if (this.status === 'ready'){
     this.currentPlayer.reset();
