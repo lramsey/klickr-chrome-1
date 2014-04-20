@@ -105,12 +105,12 @@ angular.module('KlickrChromeApp', [])
         $scope.showMessage = true;
         Klickr.bgRecorder.save($scope.desc);
 
-        Klickr.deleteRecorder();
+        Klickr.deleteRecorderEditor();
       }
     };
 
     $scope.delete = function(){
-      Klickr.deleteRecorder();
+      Klickr.deleteRecorderEditor();
       window.close();
     };
 
