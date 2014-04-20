@@ -7,12 +7,13 @@ var Message = function (text, classes, coords, duration, template) {
   this.classes = classes;
   this.coords = coords;
   this.duration = duration;
+  this.template = template;
 
   this.parse();
   this.render();
-  this.html(text);
-  this.position(coords);
-  this.addClasses(classes);
+  this.html(this.text);
+  this.position(this.coords);
+  this.addClasses(this.classes);
   this.display();
 };
 
@@ -28,30 +29,41 @@ Message.prototype.parse = function(){
   var matches = this.text.match(/\[([^\]]+)]/g);
   var parsed = '';
   if (matches){
-
-  }
-  this.text.replace(/\[(.*?)\]/g, '').trim();
-  switch (parsed){
-    case 'click':
-      this.template = 'click';
-      break;
-    default:
-      break;
+    for (var i = 0; i < matches.length; i++){
+      var match = matches[i];
+      match = match.substr(1,match.length-2).trim().toLowerCase();
+      console.log('Match', match);
+      switch (match){
+        case 'click':
+          this.template = 'click';
+          this.text = this.text.replace(/\[([^\]]+)]/g, '').trim();
+          break;
+        case 'header':
+          this.template = 'header';
+          break;
+        case 'footer':
+          this.template = 'footer';
+          break;
+        default:
+          break;
+      }
+    }
   }
 };
 
 Message.prototype.render = function(){
   switch (this.template){
     case 'record':
-      this.$message = $('<div class="klickr-msg klickr-msg-record"><div class="klickr-record"></div></div>');
+      this.$message = $('<div class="klickr-msg klickr-msg-record klickr-anim-hatch"><div class="klickr-record"></div></div>');
       this.fadeInOut(this.$message.find('.klickr-record'));
       break;
     case 'play':
-      this.$message = $('<div class="klickr-msg klickr-msg-play"><div class="klickr-play"></div></div>');
+      this.$message = $('<div class="klickr-msg klickr-msg-play klickr-anim-hatch"><div class="klickr-play"></div></div>');
       this.fadeInOut(this.$message.find('.klickr-play'));
       break;
     case 'click':
-      this.$message = $('<div class="klickr-click"></div>');
+      this.$message = $('<div class="klickr-click klickr-fade-in"></div>');
+      this.duration = 500;
       break;
     default:
       this.$message = $('<div class="klickr-msg"></div>');
@@ -68,12 +80,17 @@ Message.prototype.position = function (coords) {
   // Other recorder or player messages at center
   if (coords === 'override'){
     // do nothing
+  } else if (this.template === 'click'){
+    // for clicks
+    this.$message.css('position','absolute');
+    this.$message.css('top', coords.top-25);
+    this.$message.css('left', coords.left-25);
   } else if (coords === undefined) {
     this.$message.css('position','fixed');
     this.$message.css('top', window.innerHeight/2 - this.$message.outerHeight(true)/2);
     this.$message.css('left', window.innerWidth/2 - this.$message.outerWidth(true)/2);
   } else {
-    // annotations, clicks, keypresses at coordinates of the event
+    // annotations, keypresses at coordinates of the event
     this.$message.css('position','absolute');
     this.$message.css('top', coords.top + 45);
     this.$message.css('left', coords.left);
@@ -110,7 +127,7 @@ $(function () {
     var actions = {
       // create temporary message (for annotations, clicks, keypresses)
       createMessage: function(request, sender, sendResponse){
-        var message = new Message(request.message, 'klickr_temp', request.coords, request.duration);
+        var message = new Message(request.message, 'klickr-temp', request.coords, request.duration);
         sendResponse({response: "Message: Message has been displayed on screen"});
       },
       // create recorder or player message
