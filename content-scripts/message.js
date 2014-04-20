@@ -13,7 +13,7 @@ var Message = function (text, classes, coords, duration, template) {
   this.render();
   this.html(this.text);
   this.addClasses(this.classes);
-  this.position(this.coords);
+  this.position();
   this.display();
 };
 
@@ -84,28 +84,29 @@ Message.prototype.html = function(text){
 };
 
 // function used in constructor to position message box
-Message.prototype.position = function (coords) {
-  // Other recorder or player messages at center
-  if (coords === 'override'){
+Message.prototype.position = function () {
+
+  if (this.coords === 'override'){
     // do nothing
   } else if (this.template === 'footer'){
-    this.$message.css('position','absolute');
+    // set height
     this.$message.css('top', window.innerHeight - 75);
-    this.$message.css('left', '2.5%');
+  } else if (this.template === 'header'){
+    // do nothing
   } else if (this.template === 'click'){
     // for clicks
     this.$message.css('position','absolute');
-    this.$message.css('top', coords.top-25);
-    this.$message.css('left', coords.left-25);
-  } else if (coords === undefined) {
+    this.$message.css('top', this.coords.top-25);
+    this.$message.css('left', this.coords.left-25);
+  } else if (this.coords === undefined) {
     this.$message.css('position','fixed');
     this.$message.css('top', window.innerHeight/2 - this.$message.outerHeight(true)/2);
     this.$message.css('left', window.innerWidth/2 - this.$message.outerWidth(true)/2);
   } else {
     // annotations, keypresses at coordinates of the event
     this.$message.css('position','absolute');
-    this.$message.css('top', coords.top + 45);
-    this.$message.css('left', coords.left);
+    this.$message.css('top', this.coords.top + 45);
+    this.$message.css('left', this.coords.left);
   }
 };
 

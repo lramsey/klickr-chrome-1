@@ -46,11 +46,12 @@
 }
 
 .klickr-play {
-  background: #588F27;
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
+  height: 0px;
+  width: 0px;
   margin: 0px auto 10px auto;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 20px solid #588F27;
 }
 
 .klickr-msg-sticky {
@@ -94,6 +95,8 @@ klickr-footer
 */
 
 .klickr-footer {
+  position: absolute;
+  left: 2.5%;
   margin: 0 auto;
   width: 90%;
   padding: 15px 2.5%;
@@ -105,14 +108,44 @@ klickr-footer
 .klickr-footer::after {
   position: absolute;
   top: 100%;
-  left: 53%;
-  margin-left: -50%;
+  left: 50%;
   content: '';
   width: 0;
   height: 0;
-  border-top: solid 10px rgba(150,150,150,0.7);
-  border-left: solid 10px transparent;
-  border-right: solid 10px transparent;
+  border-top: solid 15px rgba(150,150,150,0.7);
+  border-left: solid 15px transparent;
+  border-right: solid 15px transparent;
+}
+
+/*
+==============================================
+klickr-header
+==============================================
+*/
+
+.klickr-header {
+  position: absolute;
+  left: 2.5%;
+  top: 25px;
+  margin: 0 auto;
+  width: 90%;
+  padding: 15px 2.5%;
+  background-color: rgba(150, 150, 150, 0.7);
+  border-radius: 5px;
+}
+
+.klickr-header:after, .klickr-header:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  position: absolute;
+}
+
+.klickr-header:after {
+  border-bottom-color: rgba(150,150,150,0.7);
+  border-width: 15px;
+  margin-left: -15px;
 }
 
 /*
