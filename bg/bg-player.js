@@ -30,6 +30,14 @@ BgPlayer.prototype.play = function(){
       that.playStagedKlick();
     }
   });
+
+  // sends message to listeners in message.js
+  helpers.activeTabSendMessage({
+    action: 'createMessage',
+    message: 'Start Playback',
+    duration: 2000,
+    coords: undefined
+  });
 };
 
 // Resume playing at resumeIndex, which is sent back from bgEditor
@@ -181,7 +189,7 @@ BgPlayer.prototype.getRawKlickIndex = function(queueIndex, playerIndex){
 
 
 /* Watches tab and plays next subklick when player ready */
-// added waiting variable to prevent bug where, on redirect, multiple klickFinished messages 
+// added waiting variable to prevent bug where, on redirect, multiple klickFinished messages
 // were called  out of placecausing the app to break.
 BgPlayer.prototype.playWhenPlayerReady = function(){
   var that = this;
@@ -207,6 +215,7 @@ BgPlayer.prototype.playWhenPlayerReady = function(){
 BgPlayer.prototype.playStagedKlick = function(){
   var that = this;
   chrome.tabs.sendMessage(that.tabId, {action:'play', klick: that.stagedKlick}, function(res){
+    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Playing', template: 'play'});
     if (res === undefined || res.response === undefined) {
       // if no response, try again
       that.playStagedKlick();
@@ -236,6 +245,7 @@ BgPlayer.prototype.nextSubKlick = function(){
 /* Announce that playback is finished */
 BgPlayer.prototype.onPlayFinished = function(){
   chrome.runtime.sendMessage({action:'playerDone'});
+  helpers.activeTabSendMessage({action: 'removeRecordMessage'});
 
   // sends message to listeners in message.js
   helpers.activeTabSendMessage({
