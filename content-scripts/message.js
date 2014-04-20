@@ -26,29 +26,29 @@ Message.prototype.fadeInOut = function(elem){
 
 /* Extracts shortcodes from text and processes them */
 Message.prototype.parse = function(){
-  var matches = this.text.match(/\[([^\]]+)]/g);
-  var parsed = '';
+  var matches = this.text.match(/\[([^\]]+)]/);
+
   if (matches){
-    for (var i = 0; i < matches.length; i++){
-      var match = matches[i];
-      match = match.substr(1,match.length-2).trim().toLowerCase();
-      console.log('Match', match);
-      switch (match){
-        case 'click':
-          this.template = 'click';
-          this.text = this.text.replace(/\[([^\]]+)]/g, '').trim();
-          break;
-        case 'header':
-          this.template = 'header';
-          this.text = this.text.replace(/\[([^\]]+)]/g, '').trim();
-          break;
-        case 'footer':
-          this.template = 'footer';
-          this.text = this.text.replace(/\[([^\]]+)]/g, '').trim();
-          break;
-        default:
-          break;
-      }
+    var match = matches[1].trim().toLowerCase();
+    switch (match){
+      case 'click':
+        this.template = 'click';
+        this.text = this.text.replace(/\[([^\]]+)]/, '').trim();
+        break;
+      case 'header':
+        this.template = 'header';
+        this.text = this.text.replace(/\[([^\]]+)]/, '').trim();
+        break;
+      case 'center':
+        this.template = 'center';
+        this.text = this.text.replace(/\[([^\]]+)]/, '').trim();
+        break;
+      case 'footer':
+        this.template = 'footer';
+        this.text = this.text.replace(/\[([^\]]+)]/, '').trim();
+        break;
+      default:
+        break;
     }
   }
 };
@@ -66,6 +66,10 @@ Message.prototype.render = function(){
     case 'click':
       this.$message = $('<div class="klickr klickr-click klickr-fade-in"></div>');
       this.duration = 500;
+      break;
+    case 'center':
+      this.$message = $('<div class="klickr klickr-msg"></div>');
+      this.coords = undefined;
       break;
     case 'footer':
       this.$message = $('<div class="klickr klickr-footer"></div>');

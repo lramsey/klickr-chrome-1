@@ -95,7 +95,7 @@ klickr-footer
 */
 
 .klickr-footer {
-  position: absolute;
+  position: fixed;
   left: 2.5%;
   margin: 0 auto;
   width: 90%;
@@ -124,7 +124,7 @@ klickr-header
 */
 
 .klickr-header {
-  position: absolute;
+  position: fixed;
   left: 2.5%;
   top: 25px;
   margin: 0 auto;
