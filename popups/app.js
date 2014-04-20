@@ -14,8 +14,8 @@ angular.module('KlickrChromeApp', [])
     $scope.refreshStatus();
     $interval(function() {
       $scope.refreshStatus();
-      $scope.Links = Klickr.latestLinks;  //stephan add
-      if ($scope.Links.length>0) {$scope.showRecentLinks = true;}  //stephan add
+      $scope.Links = Klickr.latestLinks;
+      if ($scope.Links.length>0) {$scope.showRecentLinks = true;}
     }, 500);
 
     $scope.showMessage = false;
