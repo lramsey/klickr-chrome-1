@@ -13,8 +13,8 @@ var Message = function (text, classes, coords, duration, template) {
   this.render();
   this.html(this.text);
   this.addClasses(this.classes);
-  this.position();
   this.display();
+  this.position();
 };
 
 Message.prototype.fadeInOut = function(elem){
