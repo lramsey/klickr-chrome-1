@@ -34,7 +34,7 @@ var BgEditor = function () {
 
 BgEditor.prototype.addEditorListeners = function(){
   var self = this;
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function editorListeners(request, sender, sendResponse) {
     // listens for playerDone action sent by bgPlayer
     if (request.action === 'playerDone') {
       self.playerDone();
@@ -42,6 +42,10 @@ BgEditor.prototype.addEditorListeners = function(){
     //listens for the pauseIndex action sent by bgPlayer
     else if(request.action === 'pauseIndex') {
       self.pauseIndex(request);
+    }
+    // removes these event listeners before the Klickr.editor value is set to undefined
+    else if (request.action === 'deleteEditor'){
+      chrome.runtime.onMessage.removeListener(editorListeners);
     }
   });
 };

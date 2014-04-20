@@ -257,10 +257,12 @@ window.Klickr.startRecording = function(){
   }
 };
 
-// deletes the recorder on Klickr
-window.Klickr.deleteRecorder = function () {
+// deletes the recorder on Klickr. also removes editor event listener and deletes the editor.
+window.Klickr.deleteRecorderEditor = function () {
   window.Klickr.bgRecorder = undefined;
   window.Klickr.refreshRecorderStatus(true);
+  chrome.runtime.sendMessage({action:'deleteEditor'});
+  Klickr.editor = undefined;
 };
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

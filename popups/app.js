@@ -14,8 +14,8 @@ angular.module('KlickrChromeApp', [])
     $scope.refreshStatus();
     $interval(function() {
       $scope.refreshStatus();
-      $scope.Links = Klickr.latestLinks;  //stephan add
-      if ($scope.Links.length>0) {$scope.showRecentLinks = true;}  //stephan add
+      $scope.Links = Klickr.latestLinks;
+      if ($scope.Links.length>0) {$scope.showRecentLinks = true;}
     }, 500);
 
     $scope.showMessage = false;
@@ -105,12 +105,12 @@ angular.module('KlickrChromeApp', [])
         $scope.showMessage = true;
         Klickr.bgRecorder.save($scope.desc);
 
-        Klickr.deleteRecorder();
+        Klickr.deleteRecorderEditor();
       }
     };
 
     $scope.delete = function(){
-      Klickr.deleteRecorder();
+      Klickr.deleteRecorderEditor();
       window.close();
     };
 

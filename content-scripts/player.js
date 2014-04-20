@@ -36,9 +36,6 @@ var Player = function(){
       that.resumePlayController(request.klick, request.index);
       console.log('Resuming Klick Play');
       sendResponse({response: "Player: Resuming Klick Play"});
-    },
-    ready : function (request, sender, sendResponse) {
-      sendResponse({response: 'ready'});
     }
   };
 
