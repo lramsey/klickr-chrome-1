@@ -30,7 +30,7 @@ BgRecorder.prototype.init = function(){
   this.bindUpdateActiveTab();
   this.addListeners();
   this.startMessage();
-  helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Recording Now'});
+  helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Recording', template: 'record'});
 };
 
 
@@ -72,7 +72,7 @@ BgRecorder.prototype.msgHandler = function(req, sender, res){
 BgRecorder.prototype.startMessage = function(){
   helpers.activeTabSendMessage({
     action: 'createMessage',
-    message: 'Start Recording Now',
+    message: 'Recording Started',
     duration: 2000,
     coords: undefined
   });
@@ -82,7 +82,7 @@ BgRecorder.prototype.startMessage = function(){
 BgRecorder.prototype.stopMessage = function(){
   helpers.activeTabSendMessage({
     action: 'createMessage',
-    message: 'Stop Recording Now',
+    message: 'Recording Ended',
     duration: 2000,
     coords: undefined
   });
@@ -280,6 +280,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
   // If DOM is ready and window.recorderStatus = 'recording', then send message to message.js
   else if (request.action === 'recorderReady' && window.Klickr.recorderStatus === 'recording') {
-    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Recording Now'});
+    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Recording', template: 'record'});
   }
 });
