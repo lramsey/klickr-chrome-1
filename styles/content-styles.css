@@ -1,12 +1,15 @@
-.klickr-msg {
-  background-color: rgba(150, 150, 150, 0.7);
+.klickr {
+  font-size: 20px;
   color: white;
+  font-family: Helvetica, sans-serif;
+  z-index: 2147483647;
+}
+
+.klickr-msg {
+  background-color: rgba(150, 150, 150, 0.7) !important;
   border-radius: 5px;
   padding: 15px;
-  font-size: 20px;
-  font-family: Helvetica, sans-serif;
   max-width: 50%;
-  z-index: 2147483647;
 }
 
 .klickr-centered {
@@ -18,7 +21,7 @@
 }
 
 .klickr-msg-record {
-  background-color: rgba(100, 100, 100, 0.3) !important;
+  background-color: rgba(150, 150, 150, 0.7) !important;
   color: #B9121B !important;
   letter-spacing: 1px;
   font-weight: 600;
@@ -86,6 +89,34 @@ klickr-click
 
 /*
 ==============================================
+klickr-footer
+==============================================
+*/
+
+.klickr-footer {
+  margin: 0 auto;
+  width: 90%;
+  padding: 15px 2.5%;
+  background-color: rgba(150, 150, 150, 0.7);
+  border-radius: 5px;
+}
+
+.klickr-footer:after,
+.klickr-footer::after {
+  position: absolute;
+  top: 100%;
+  left: 53%;
+  margin-left: -50%;
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: solid 10px rgba(150,150,150,0.7);
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+}
+
+/*
+==============================================
 klickr-anim-hatch
 ==============================================
 */
@@ -108,51 +139,51 @@ klickr-anim-hatch
 }
 
 @keyframes klickr-anim-hatch {
-    0% {
-        transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        transform: rotate(-2deg);
-    }
-    65% {
-        transform: rotate(1deg);
-    }
-    80% {
-        transform: rotate(-1deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+  65% {
+    transform: rotate(1deg);
+  }
+  80% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 @-webkit-keyframes klickr-anim-hatch {
-    0% {
-        -webkit-transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        -webkit-transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        -webkit-transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        -webkit-transform: rotate(-2deg);
-    }
-    65% {
-        -webkit-transform: rotate(1deg);
-    }
-    80% {
-        -webkit-transform: rotate(-1deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    -webkit-transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    -webkit-transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    -webkit-transform: rotate(-2deg);
+  }
+  65% {
+    -webkit-transform: rotate(1deg);
+  }
+  80% {
+    -webkit-transform: rotate(-1deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
 }
 
 /*
@@ -168,8 +199,8 @@ klickr-fade-in
   animation-duration: 0.5s;
   -webkit-animation-duration: 0.5s;
 
-  animation-timing-function: ease-in-out;
-  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease;
+  -webkit-animation-timing-function: ease;
 
   visibility: visible !important;
 }
