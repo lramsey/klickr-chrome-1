@@ -210,6 +210,7 @@ BgPlayer.prototype.playWhenPlayerReady = function(){
         throw new Error('BgPlayer: Tab does not exist');
       }
       if (tab.status === 'complete' && that.waiting){
+        console.log('BgPlayer 1: In complete');
         that.waiting = false;
         that.playStagedKlick();
         chrome.tabs.onUpdated.removeListener(nextSubKlickListener);
@@ -223,13 +224,15 @@ BgPlayer.prototype.playWhenPlayerReady = function(){
 BgPlayer.prototype.playStagedKlick = function(){
   var that = this;
   chrome.tabs.sendMessage(that.tabId, {action:'play', klick: that.stagedKlick}, function(res){
-    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Playing', template: 'play'});
+    console.log('BgPlayer 2 res:', res, that.tabId);
     if (res === undefined || res.response === undefined) {
       // if no response, try again
+      console.log('BgPlayer 3: Retrying playStagedKlick');
       that.playStagedKlick();
       return;
     }
     that.stagedKlick = undefined;
+    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Playing', template: 'play'});
   });
 };
 

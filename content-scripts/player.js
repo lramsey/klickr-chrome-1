@@ -6,6 +6,7 @@
 
 var Player = function(){
   console.log('Initializing player...');
+  this.playing = false;
   this.pause = false;
   this.end = false;
   this.skip = false;
@@ -16,9 +17,11 @@ var Player = function(){
   // player function definitions for various messages received from the background
   this.actions = {
     play : function (request, sender, sendResponse){
-      that.newPlayController(request.klick);
-      console.log('Playing Klick');
-      sendResponse({response: 'Player: Playing Klick...'});
+      if(!that.playing && request.klick.ticks[0].url === document.URL){
+        that.newPlayController(request.klick);
+        console.log('Playing Klick');
+        sendResponse({response: 'Player: Playing Klick...', url: document.URL});
+      }
     },
     end : function(request, sender, sendResponse){
       that.end = true;
@@ -33,9 +36,11 @@ var Player = function(){
       console.log('paused');
     },
     resume : function (request, sender, sendResponse){
-      that.resumePlayController(request.klick, request.index);
-      console.log('Resuming Klick Play');
-      sendResponse({response: "Player: Resuming Klick Play"});
+      if(!that.playing && request.klick.ticks[0].url === document.URL){
+        that.resumePlayController(request.klick, request.index);
+        console.log('Resuming Klick Play');
+        sendResponse({response: "Player: Resuming Klick Play"});
+      }
     }
   };
 
@@ -48,7 +53,7 @@ window.Player = Player;
 /* Klick Formatting Methods
 /* ------------------------------------------------------------------------------------*/
 
-// update window size property, refresh interval, annotation inclusion 
+// update window size property, refresh interval, annotation inclusion
 Player.prototype.formatKlick = function(klick) {
   var movement = klick.ticks;
   this.scaleXY(klick);
@@ -119,6 +124,7 @@ Player.prototype.playRecording = function(movement, index){
 Player.prototype.endPlay = function(){
   console.log('Player: Sending to background');
   $('.mouse').detach();
+  this.playing = false;
   if(this.end){
     chrome.runtime.sendMessage({action: "klickEnded"});
     this.end = false;
@@ -130,6 +136,7 @@ Player.prototype.endPlay = function(){
 
 // function to pause playback
 Player.prototype.pausePlay = function(index){
+  this.playing = false;
   chrome.runtime.sendMessage({action : "klickPaused", index:index});
   console.log('Player: paused');
 };
@@ -190,12 +197,14 @@ Player.prototype.click = function(movement, index) {
 
 // generate new playback
 Player.prototype.newPlayController = function(klick){
+  this.playing = true;
   this.formatKlick(klick);
   this.playRecording(klick.ticks, 0);
 };
 
 // resume playback after pause
 Player.prototype.resumePlayController = function(klick, index){
+  this.playing = true;
   this.formatKlick(klick);
   this.pause = false;
   this.playRecording(klick.ticks, index);
@@ -213,7 +222,7 @@ $(function(){
 
   // Trigger listeners to messages from background
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log(request.action);
+    console.log('Player:', request.action);
     if (player.actions.hasOwnProperty(request.action)){
       player.actions[request.action](request, sender, sendResponse);
     } else {
