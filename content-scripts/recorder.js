@@ -118,6 +118,11 @@ Recorder.prototype.log = function(action, pageX, pageY, clientX, clientY, timest
       shiftKey: shiftKey,
       url: url
     };
+    // no recording of passwords. period.
+    var $element = $($(tick.target.tagName)[tick.target.index]);
+    if($element.attr('type') === 'password'){
+      tick.charCode = -1;
+    }
 
     chrome.runtime.sendMessage({action: 'appendTick', tick: tick});
   }
