@@ -210,7 +210,7 @@ BgPlayer.prototype.playWhenPlayerReady = function(){
         throw new Error('BgPlayer: Tab does not exist');
       }
       if (tab.status === 'complete' && that.waiting){
-        console.log('BgPlayer 1: In complete');
+        console.log('status complete');
         that.waiting = false;
         that.playStagedKlick();
         chrome.tabs.onUpdated.removeListener(nextSubKlickListener);
@@ -229,10 +229,10 @@ BgPlayer.prototype.playStagedKlick = function(){
       // if no response, try again
       console.log('BgPlayer 3: Retrying playStagedKlick');
       that.playStagedKlick();
-      return;
+    } else {
+      that.stagedKlick = undefined;
+      helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Playing', template: 'play'});
     }
-    that.stagedKlick = undefined;
-    helpers.activeTabSendMessage({action: 'showRecordMessage', message: 'Playing', template: 'play'});
   });
 };
 
@@ -244,9 +244,11 @@ BgPlayer.prototype.nextSubKlick = function(){
   if (that.klickQueueIndex < that.klickQueue.length){
     that.stagedKlick = that.klickQueue[that.klickQueueIndex];
     that.redirect(that.stagedKlick.ticks[0].url, function(){
+      console.log('redirected for playing');
       that.playWhenPlayerReady();
     });
   } else {
+    console.log('playback done');
     that.onPlayFinished();
     that.reset();
   }
@@ -293,6 +295,7 @@ BgPlayer.prototype.addPlayerListeners = function(){
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // Player --> BgPlayer: Sends message when subklick has finished playing
     if (request.action === 'klickFinished') {
+      console.log('klick done: ' + that.klickQueueIndex);
       that.nextSubKlick();
     }
     // Player --> BgPlayer: Returns index that is paused at upon pause
@@ -302,6 +305,7 @@ BgPlayer.prototype.addPlayerListeners = function(){
     }
 
     else if (request.action === 'klickEnded'){
+      console.log('klick ended');
       that.klickQueueIndex = that.klickQueue.length-1;
       that.nextSubKlick();
     }

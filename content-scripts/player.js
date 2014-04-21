@@ -187,7 +187,7 @@ Player.prototype.keypress =function(movement, index) {
 // shows clicks during recording
 Player.prototype.click = function(movement, index) {
   var $clickElement = $($(movement[index].target.tagName)[movement[index].target.index]);
-  $clickElement.trigger('click');
+  //$clickElement.trigger('click');
 };
 
 
